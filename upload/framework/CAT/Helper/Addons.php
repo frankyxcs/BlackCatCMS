@@ -519,7 +519,6 @@ if ( !class_exists( 'CAT_Helper_Addons' ) )
                     // check required CMS version
                     case 'CAT_VERSION':
                     case 'WB_VERSION':
-                    case 'LEPTON_VERSION':
                     case 'VERSION':
                         list( $status, $msg[] ) = self::checkCMSVersion( $key, $value );
                         // increase counter if required
@@ -1701,11 +1700,7 @@ if ( !class_exists( 'CAT_Helper_Addons' ) )
                         $return_values[ $key ] = isset( ${$varname} ) ? ${$varname} : '';
                     }
                 }
-                // check platform (WB/LEPTON/BC)
-                if(isset($lepton_platform)&&!isset($module_platform))
-                {
-                    $return_values['cms_name'] = 'LEPTON';
-                }
+                // check platform (WB/BC)
                 if(isset($module_platform))
                 {
                     if(!self::versionCompare($module_platform,'2.x','<='))
@@ -1996,9 +1991,6 @@ if ( !class_exists( 'CAT_Helper_Addons' ) )
                 case 'WB_VERSION': // we support WB 2.8.3
                     $this_version = '2.8.3';
                     break;
-                case 'LEPTON_VERSION': // we support LEPTON 1.x
-                    $this_version = '1.2';
-                    break;
                 default:
                     $this_version = CAT_Registry::get( 'CAT_VERSION' );
                     break;
@@ -2033,7 +2025,6 @@ if ( !class_exists( 'CAT_Helper_Addons' ) )
             // define desired precheck order
             $key_order = array(
                 'CAT_VERSION',
-                'LEPTON_VERSION',
                 'WB_VERSION',
                 'CAT_ADDONS',
                 'WB_ADDONS',

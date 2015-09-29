@@ -122,9 +122,6 @@ if ( $result->numRows() == 0 ) {
 }
 
 // import default droplets
-if ( ! class_exists( 'CAT_Helper_Directory' ) ) {
-	@include CAT_PATH.'/framework/LEPTON/Helper/Directory.php';
-}
 if ( ! function_exists( 'droplets_import' ) ) {
 	@include dirname(__FILE__).'/include.php';
 }

@@ -1336,9 +1336,6 @@ function init_constants($cat_path)
     // WB compatibility
     if ( ! CAT_Registry::exists('WB_URL')       ) { CAT_Registry::define('WB_URL',$config['cat_url']);        }
     if ( ! CAT_Registry::exists('WB_PATH')      ) { CAT_Registry::define('WB_PATH',$cat_path);                }
-    // LEPTON compatibility
-    if ( ! CAT_Registry::exists('LEPTON_URL')   ) { CAT_Registry::define('LEPTON_URL',$config['cat_url']); }
-    if ( ! CAT_Registry::exists('LEPTON_PATH')  ) { CAT_Registry::define('LEPTON_PATH',$cat_path);            }
 
     // user id
     $_SESSION['USER_ID'] = 1;

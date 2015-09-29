@@ -1,61 +1,51 @@
 <?php
-  /**
-   *  @template       blank
-   *  @version        see info.php of this template
-   *  @author         erpe
-   *  @copyright      2010-2011 erpe
-   *  @license        GNU General Public License
-   *  @license terms  see info.php of this module
-   *  @platform       see info.php of this module
-   *  @requirements   PHP 5.2.x and higher
-   */
-  
-  // include class.secure.php to protect this file and the whole CMS!
-  if (defined('CAT_PATH'))
-  {
-      include(CAT_PATH . '/framework/class.secure.php');
-  }
-  elseif (file_exists($_SERVER['DOCUMENT_ROOT'] . '/framework/class.secure.php'))
-  {
-      include($_SERVER['DOCUMENT_ROOT'] . '/framework/class.secure.php');
-  }
-  else
-  {
-      $subs = explode('/', dirname($_SERVER['SCRIPT_NAME']));
-      $dir = $_SERVER['DOCUMENT_ROOT'];
-      $inc = false;
-      foreach ($subs as $sub)
-      {
-          if (empty($sub))
-              continue;
-          $dir .= '/' . $sub;
-          if (file_exists($dir . '/framework/class.secure.php'))
-          {
-              include($dir . '/framework/class.secure.php');
-              $inc = true;
-              break;
-          }
-      }
-      if (!$inc)
-          trigger_error(sprintf("[ <b>%s</b> ] Can't include class.secure.php!", $_SERVER['SCRIPT_NAME']), E_USER_ERROR);
-  }
-  // end include class.secure.php
-  
-  // OBLIGATORY WEBSITE BAKER VARIABLES
-  $template_directory = 'blank';
-  $template_name = 'Blank';
-  $template_function = 'template';
-  $template_version = '1.1.0';
-  $template_platform = 'Lepton 1.x';
-  $template_author = 'erpe';
-  $template_license = '<a href="http://www.gnu.org/licenses/gpl.html">GNU General Public License</a>';
-  $template_license_terms = '-';
-  $template_description = 'This template is for use on page where you do not want anything wrapping the content.';
-  $template_guid = '8f6b513e-ee82-47d8-a0d2-415a06ec8f0a';
-  
-  // OPTIONAL VARIABLES FOR ADDITIONAL MENUES AND BLOCKS
-  // $menu[1]                = '';
-  // $menu[2]                = '';
-  // $block[1]              = '';
-  // $block[2]              = '';
-?>
+
+/**
+ *   This program is free software; you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation; either version 3 of the License, or (at
+ *   your option) any later version.
+ *
+ *   This program is distributed in the hope that it will be useful, but
+ *   WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ *   General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program; if not, see <http://www.gnu.org/licenses/>.
+ *
+ *   @author          Black Cat Development
+ *   @copyright       2015, Black Cat Development
+ *   @link            http://blackcat-cms.org
+ *   @license         http://www.gnu.org/licenses/gpl.html
+ *   @category        CAT_Core
+ *   @package         CAT_Core
+ *
+ */
+
+if (defined('CAT_PATH')) {
+	include(CAT_PATH.'/framework/class.secure.php');
+} else {
+	$root = "../";
+	$level = 1;
+	while (($level < 10) && (!file_exists($root.'/framework/class.secure.php'))) {
+		$root .= "../";
+		$level += 1;
+	}
+	if (file_exists($root.'/framework/class.secure.php')) {
+		include($root.'/framework/class.secure.php');
+	} else {
+		trigger_error(sprintf("[ <b>%s</b> ] Can't include class.secure.php!", $_SERVER['SCRIPT_NAME']), E_USER_ERROR);
+	}
+}
+
+$template_directory = 'blank';
+$template_name = 'Blank';
+$template_function = 'template';
+$template_version = '2.0';
+$template_platform = '1.x';
+$template_author = 'Black Cat Development';
+$template_license = '<a href="http://www.gnu.org/licenses/gpl.html">GNU General Public License</a>';
+$template_license_terms = '-';
+$template_description = 'This template is in fact no template, as it is completely blank. Use this if you do not want any CSS or page headers/footers.';
+$template_guid = 'a4402cce-7c8d-47b9-bb2e-154e62e67019';

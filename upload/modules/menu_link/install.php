@@ -41,11 +41,8 @@ if (defined('CAT_PATH')) {
 	}
 }
 
-$table = CAT_TABLE_PREFIX ."mod_menu_link";
-// $database->query("DROP TABLE IF EXISTS `$table`");
-
 $database->query("
-	CREATE TABLE IF NOT EXISTS `$table` (
+	CREATE TABLE IF NOT EXISTS `:prefix:mod_menu_link` (
 		`section_id` INT(11) NOT NULL DEFAULT '0',
 		`page_id` INT(11) NOT NULL DEFAULT '0',
 		`target_page_id` INT(11) NOT NULL DEFAULT '0',
@@ -67,6 +64,3 @@ foreach(
          error_log( "Unable to register file -$file-!" );
     }
 }
-
-
-?>

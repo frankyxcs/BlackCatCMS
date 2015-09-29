@@ -282,8 +282,7 @@ function make_url_target($page_link_target, $text, $search_words) {
  * This function is no longer supported!
  * 
  * @deprecated - use print_excerpt2() instead!
- * @todo - remove at LEPTON 2.1.x!
- * @param string $page_link
+  * @param string $page_link
  * @param string $page_link_target
  * @param string $page_title
  * @param string $page_description
@@ -319,7 +318,7 @@ function print_excerpt($page_link, $page_link_target, $page_title,
  * This is the main function for all module search functions.
  * 
  * @param array $search_result - variables given from the module or droplep
- * @param array $search_parameter - variables given from the LEPTON search to the module
+ * @param array $search_parameter - variables given from the search to the module
  * @return boolean true if the search result of the module match or false in all other cases
  */
 function print_excerpt2($search_result, $search_parameter) {
@@ -779,11 +778,4 @@ function clear_filelist($files, $str, $keep=true) {
 		}
 	}
 	return($c_filelist);
-}
-
-/**
- * @deprecated - not supported in LEPTON CMS
- */
-function search_make_sql_part($words, $match, $columns) {
-    trigger_error(sprintf('[%s - %s] This function is deprecated and not supported by LEPTON CMS!', __FUNCTION__, __LINE__), E_USER_ERROR);
 }

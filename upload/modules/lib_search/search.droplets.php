@@ -42,9 +42,9 @@ if (defined('CAT_PATH')) {
 
 /**
  * Register a Droplet with $droplet_name, place at the page with the $page_id
- * and hosted at $module_directory for the LEPTON search.
+ * and hosted at $module_directory for the search.
  * 
- * The LEPTON search will look for a search.php in $module_directory
+ * The search will look for a search.php in $module_directory
  * 
  * @param string $droplet_name
  * @param integer $page_id
@@ -80,7 +80,7 @@ function register_droplet_for_search($droplet_name, $page_id, $module_directory)
 
 /**
  * Remove the Droplet $droplet_name for the page with the $page_id from the
- * LEPTON search.
+ * search.
  *  
  * @param string $droplet_name
  * @param integer $page_id
@@ -106,7 +106,7 @@ function unregister_droplet_for_search($droplet_name, $page_id) {
 } // unregister_droplet_for_search()
 
 /**
- * Check if a Droplet is registered for the LEPTON search or not
+ * Check if a Droplet is registered for the search or not
  * 
  * @param string $droplet_name
  * @return boolean true on success
@@ -122,7 +122,7 @@ function is_droplet_registered_for_search($droplet_name) {
 } // is_droplet_registered_for_search()
 
 /**
- * Return an array with all PAGE_IDs the Droplet is registered for the LEPTON search
+ * Return an array with all PAGE_IDs the Droplet is registered for the search
  * 
  * @param string $droplet_name
  * @return array with PAGE_IDs

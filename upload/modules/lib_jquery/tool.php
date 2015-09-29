@@ -15,19 +15,17 @@
  *   along with this program; if not, see <http://www.gnu.org/licenses/>.
  *
  *   @author          Black Cat Development
- *   @copyright       2014, Black Cat Development
+ *   @copyright       2015, Black Cat Development
  *   @link            http://blackcat-cms.org
  *   @license         http://www.gnu.org/licenses/gpl.html
- *   @category        CAT_Module
+ *   @category        CAT_Modules
  *   @package         lib_jquery
  *
  */
 
-if (defined('WB_PATH')) {
-    if (defined('CAT_PATH')) include(CAT_PATH.'/framework/class.secure.php');
-    elseif (defined('LEPTON_PATH')) include(LEPTON_PATH.'/framework/class.secure.php');
-}
-else {
+if (defined('CAT_PATH')) {
+	include(CAT_PATH.'/framework/class.secure.php');
+} else {
 	$root = "../";
 	$level = 1;
 	while (($level < 10) && (!file_exists($root.'/framework/class.secure.php'))) {

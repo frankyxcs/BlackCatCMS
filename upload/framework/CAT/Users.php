@@ -960,7 +960,7 @@ if ( ! class_exists( 'CAT_Users', false ) )
 /*******************************************************************************
  * MOVED METHODS
  *
- * These methods were moved from WB-/LEPTON-classes, so we keep their original
+ * These methods were moved from WB-classes, so we keep their original
  * names, though they're rewritten
  ******************************************************************************/
 

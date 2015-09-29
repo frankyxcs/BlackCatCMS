@@ -14,14 +14,12 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program; if not, see <http://www.gnu.org/licenses/>.
  *
- *   @author          Website Baker Project, LEPTON Project, Black Cat Development
- *   @copyright       2004-2010, Website Baker Project
- *   @copyright       2011-2012, LEPTON Project
- *   @copyright       2013, Black Cat Development
+ *   @author          Black Cat Development
+ *   @copyright       2015, Black Cat Development
  *   @link            http://blackcat-cms.org
  *   @license         http://www.gnu.org/licenses/gpl.html
- *   @category        CAT_Modules
- *   @package         menu_link
+ *   @category        CAT_Core
+ *   @package         CAT_Core
  *
  */
 
@@ -42,5 +40,4 @@ if (defined('CAT_PATH')) {
 }
 
 global $database;
-$table = CAT_TABLE_PREFIX ."mod_menu_link";
-$database->query("DELETE FROM `$table` WHERE section_id = '$section_id'");
+$database->query("DELETE FROM `:prefix:mod_menu_link` WHERE section_id = '$section_id'");

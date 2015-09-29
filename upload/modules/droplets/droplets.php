@@ -17,7 +17,7 @@
  *   @author          Website Baker Project, LEPTON Project, Black Cat Development
  *   @copyright       2004-2010, Website Baker Project
  *   @copyright       2011-2012, LEPTON Project
- *   @copyright       2013, Black Cat Development
+ *   @copyright       2013-2015, Black Cat Development
  *   @link            http://blackcat-cms.org
  *   @license         http://www.gnu.org/licenses/gpl.html
  *   @category        CAT_Modules

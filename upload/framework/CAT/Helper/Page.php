@@ -1271,7 +1271,6 @@ frontend.css and template.css are added in _get_css()
             // add default
             $default = "
 		var WB_URL							  = '" . CAT_URL . "',
-			LEPTON_URL						  = '" . CAT_URL . "',
             CAT_URL                           = '" . CAT_URL . "';
             ";
 
