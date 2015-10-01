@@ -9,6 +9,7 @@
 /*!40101 SET NAMES utf8 */;
 /*!40014 SET FOREIGN_KEY_CHECKS=0 */;
 
+-- Please note: On fresh installations, all tables are dropped! --
 
 DROP TABLE IF EXISTS `cat_addons`;
 DROP TABLE IF EXISTS `cat_user_has_group`;
@@ -22,6 +23,7 @@ DROP TABLE IF EXISTS `cat_mod_filter`;
 DROP TABLE IF EXISTS `cat_mod_initial_page`;
 DROP TABLE IF EXISTS `cat_mod_menu_link`;
 DROP TABLE IF EXISTS `cat_mod_wrapper`;
+DROP TABLE IF EXISTS `cat_mod_bc_wrapper`;
 DROP TABLE IF EXISTS `cat_mod_wysiwyg`;
 DROP TABLE IF EXISTS `cat_mod_wysiwyg_admin`;
 DROP TABLE IF EXISTS `cat_pages_load`;
@@ -126,16 +128,6 @@ CREATE TABLE IF NOT EXISTS `cat_mod_menu_link` (
   `redirect_type` int(11) NOT NULL DEFAULT '302',
   `anchor` varchar(255) NOT NULL DEFAULT '0',
   `extern` varchar(255) NOT NULL DEFAULT '',
-  PRIMARY KEY (`section_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `cat_mod_wrapper` (
-  `section_id` int(11) NOT NULL DEFAULT '0',
-  `page_id` int(11) NOT NULL DEFAULT '0',
-  `url` text NOT NULL,
-  `height` int(11) NOT NULL DEFAULT '0',
-  `width` int(11) NOT NULL DEFAULT '0',
-  `wtype` varchar(50) NOT NULL DEFAULT '0',
   PRIMARY KEY (`section_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

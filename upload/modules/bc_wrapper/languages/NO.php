@@ -15,11 +15,11 @@
  *   along with this program; if not, see <http://www.gnu.org/licenses/>.
  *
  *   @author          Black Cat Development
- *   @copyright       2014, Black Cat Development
+ *   @copyright       2015, Black Cat Development
  *   @link            http://blackcat-cms.org
  *   @license         http://www.gnu.org/licenses/gpl.html
  *   @category        CAT_Modules
- *   @package         wrapper
+ *   @package         bc_wrapper
  *
  */
 
@@ -39,20 +39,7 @@ if (defined('CAT_PATH')) {
 	}
 }
 
-// Get page content
-$query        = "SELECT `url`,`height`,`width`,`wtype` FROM `:prefix:mod_wrapper` WHERE `section_id` = :section";
-$get_settings = $database->query($query,array('section'=>$section_id));
-$settings     = $get_settings->fetch();
-$url          = $settings['url'];
-
-// Insert vars
-$data = array(
-	'PAGE_ID'    => $page_id,
-	'SECTION_ID' => $section_id,
-	'CAT_URL'    => CAT_URL,
-	'URL'        => $url,
-	'settings'   => $settings,
+$LANG = array(
+    'Your browser does not support inline frames.<br />Click on the link below to visit the website that was meant to be shown here...<br />'
+        => 'Nettleseren din st&oslash;tter ikke &quot;inline frames&quot;.<br />Klikk p&amp;aring; lenken under for &amp;aring; g&amp;aring; til nettsiden som var men &amp;aring; skulle vises i dette vinduet...<br />',
 );
-
-$parser->setPath( CAT_PATH.'/modules/wrapper/htt' );
-$parser->output( 'modify.tpl', $data );

@@ -14,14 +14,12 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program; if not, see <http://www.gnu.org/licenses/>.
  *
- *   @author          Website Baker Project, LEPTON Project, Black Cat Development
- *   @copyright       2004-2010, Website Baker Project
- *   @copyright       2011-2012, LEPTON Project
- *   @copyright       2013, Black Cat Development
+ *   @author          Black Cat Development
+ *   @copyright       2015, Black Cat Development
  *   @link            http://blackcat-cms.org
  *   @license         http://www.gnu.org/licenses/gpl.html
- *   @category        CAT_Module
- *   @package         wrapper
+ *   @category        CAT_Modules
+ *   @package         bc_wrapper
  *
  */
 
@@ -41,9 +39,18 @@ if (defined('CAT_PATH')) {
 	}
 }
 
-// delete table
-$database->query("DROP TABLE IF EXISTS `".CAT_TABLE_PREFIX."mod_wrapper`");
+$module_directory   = 'bc_wrapper';
+$module_name        = 'BlackCat CMS Wrapper';
+$module_function    = 'page';
+$module_version     = '1.0';
+$module_platform    = '1.3';
+$module_author      = 'Black Cat Development';
+$module_license     = 'GNU General Public License';
+$module_description = 'This module allows you to wrap your site around another using an inline frame';
+$module_guid        = '166cc801-5b29-492d-8274-99adbe9c140b';
 
-// Delete the editor directory
-rm_full_dir(CAT_PATH.'/modules/wrapper');
-?>
+/**
+ * Please note: This module is based on the Wrapper module that ships with
+ * Website Baker and LEPTON CMS, but was completely rewritten for BlackCat CMS
+ * version 1.3. 
+ */

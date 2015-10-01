@@ -15,11 +15,11 @@
  *   along with this program; if not, see <http://www.gnu.org/licenses/>.
  *
  *   @author          Black Cat Development
- *   @copyright       2014, Black Cat Development
+ *   @copyright       2015, Black Cat Development
  *   @link            http://blackcat-cms.org
  *   @license         http://www.gnu.org/licenses/gpl.html
  *   @category        CAT_Modules
- *   @package         wrapper
+ *   @package         bc_wrapper
  *
  */
 
@@ -39,26 +39,26 @@ if (defined('CAT_PATH')) {
 	}
 }
 
-// Create table
-$mod_wrapper = 'CREATE TABLE IF NOT EXISTS `'.CAT_TABLE_PREFIX.'mod_wrapper` ('
-	. ' `section_id` INT NOT NULL DEFAULT \'0\','
-	. ' `page_id` INT NOT NULL DEFAULT \'0\','
-	. ' `url` TEXT NULL,'
-	. ' `height` VARCHAR(50) NOT NULL DEFAULT \'400px\','
-	. ' `width` VARCHAR(50) NOT NULL DEFAULT \'100%\','
-	. ' `wtype` VARCHAR(50) NOT NULL DEFAULT \'object\','
-	. ' PRIMARY KEY ( `section_id` ) '
-	. ' )';
-$database->query($mod_wrapper);
+$autoplay_map = array('video');
 
-// add files to class_secure
-$addons_helper = new CAT_Helper_Addons();
-foreach(
-    array( 'save.php' )
-    as $file
-) {
-    if ( false === $addons_helper->sec_register_file( 'wrapper', $file ) )
+// Get current settings
+$query        = "SELECT * FROM `:prefix:mod_bc_wrapper` WHERE `section_id` = :section";
+$get_settings = CAT_Object::db()->query($query,array('section'=>$section_id));
+$settings     = $get_settings->fetchAll(PDO::FETCH_ASSOC);
+
+foreach(array_values($settings) as $s)
+{
+    $data[$s['set_name']] = $s['set_value'];
+    if($s['set_name'] == 'ratio')
     {
-         error_log( "Unable to register file -$file-!" );
+        $data[$s['set_name']] = str_replace(':','-',$s['set_value']);
     }
 }
+
+if(in_array($data['content_type'],$autoplay_map) && $data['autoplay']=='y')
+{
+    $data['url'] .= '?autoplay=1';
+}
+
+$parser->setPath( CAT_PATH.'/modules/wrapper/templates/default' );
+$parser->output( $data['wrapper_type'].'.tpl', $data );

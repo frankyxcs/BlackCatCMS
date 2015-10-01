@@ -14,8 +14,12 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program; if not, see <http://www.gnu.org/licenses/>.
  *
- *   @category        CAT_Module
- *   @package         wrapper
+ *   @author          Black Cat Development
+ *   @copyright       2015, Black Cat Development
+ *   @link            http://blackcat-cms.org
+ *   @license         http://www.gnu.org/licenses/gpl.html
+ *   @category        CAT_Modules
+ *   @package         bc_wrapper
  *
  */
 
@@ -35,11 +39,11 @@ if (defined('CAT_PATH')) {
 	}
 }
 
-function wrapper_getFirstImageFromContent($section_id, $exec_droplets=true)
+function bc_wrapper_getFirstImageFromContent($section_id, $exec_droplets=true)
 {
     global $database;
     $settings = $database->query(sprintf(
-        'SELECT `url` FROM `%smod_wrapper` WHERE section_id = "%d"',
+        'SELECT `url` FROM `%smod_bc_wrapper` WHERE section_id = "%d"',
         CAT_TABLE_PREFIX, $section_id
     ));
     if($settings->numRows())

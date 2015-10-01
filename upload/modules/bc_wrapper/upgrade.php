@@ -21,7 +21,7 @@
  *   @link            http://blackcat-cms.org
  *   @license         http://www.gnu.org/licenses/gpl.html
  *   @category        CAT_Module
- *   @package         wrapper
+ *   @package         bc_wrapper
  *
  */
 
@@ -40,39 +40,13 @@ if (defined('CAT_PATH')) {
 		trigger_error(sprintf("[ <b>%s</b> ] Can't include class.secure.php!", $_SERVER['SCRIPT_NAME']), E_USER_ERROR);
 	}
 }
-
-if(!isset($module_version))
-{
-    $details = CAT_Helper_Addons::getAddonDetails('wrapper');
-    $module_version = $details['version'];
-}
-if ( ! CAT_Helper_Addons::versionCompare( $module_version, '2.7.2', '>=' ) ) {
-	$database->query('ALTER TABLE `'.CAT_TABLE_PREFIX.'mod_wrapper` CHANGE COLUMN `type` `wtype` VARCHAR(50) NOT NULL DEFAULT \'iframe\' AFTER `width`;');
-}
-if ( ! CAT_Helper_Addons::versionCompare( $module_version, '2.7.5', '>=' ) ) {
-    $database->query('ALTER TABLE `'.CAT_TABLE_PREFIX.'mod_wrapper`
-	CHANGE COLUMN `height` `height` VARCHAR(50) NOT NULL DEFAULT \'400\' AFTER `url`,
-	CHANGE COLUMN `width` `width` VARCHAR(50) NOT NULL DEFAULT \'100%\' AFTER `height`;');
-}
-if ( ! CAT_Helper_Addons::versionCompare( $module_version, '2.7.5', '>=' ) ) {
-    $database->query('ALTER TABLE `'.CAT_TABLE_PREFIX.'mod_wrapper`
-	CHANGE COLUMN `url` `url` TEXT NULL;');
-}
-
-
-// remove old template files
-$ltes = CAT_Helper_Directory::getInstance()->findFiles( '.*\.lte', dirname(__FILE__).'/htt' );
-if(count($ltes))
-    foreach($ltes as $file)
-        @unlink($file);
-
 // add files to class_secure
 $addons_helper = new CAT_Helper_Addons();
 foreach(
     array( 'save.php' )
     as $file
 ) {
-    if ( false === $addons_helper->sec_register_file( 'wrapper', $file ) )
+    if ( false === $addons_helper->sec_register_file( 'bc_wrapper', $file ) )
     {
          error_log( "Unable to register file -$file-!" );
     }

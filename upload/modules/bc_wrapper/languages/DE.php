@@ -15,11 +15,11 @@
  *   along with this program; if not, see <http://www.gnu.org/licenses/>.
  *
  *   @author          Black Cat Development
- *   @copyright       2014, Black Cat Development
+ *   @copyright       2015, Black Cat Development
  *   @link            http://blackcat-cms.org
  *   @license         http://www.gnu.org/licenses/gpl.html
  *   @category        CAT_Modules
- *   @package         wrapper
+ *   @package         bc_wrapper
  *
  */
 
@@ -39,11 +39,16 @@ if (defined('CAT_PATH')) {
 	}
 }
 
-global $database, $page_id, $section_id;
+// Deutsche Modulbeschreibung
+$module_description = 'Dieses Modul erlaubt das Einbinden fremder Inhalte auf Ihrer Seite mit Hilfe von Inline Frames (iframe)';
 
-// Insert an extra row into the database
-$database->query(
-     "INSERT INTO `:prefix:mod_wrapper` (`section_id`, `page_id`, `url`, `height`, `width`, `wtype`) "
-    ."VALUES (:section, :page_id, '', '400px', '100%', 'object')",
-    array('page_id'=>$page_id,'section'=>$section_id)
+$LANG = array(
+    'Your browser does not support inline frames.<br />Click on the link below to visit the website that was meant to be shown here...<br />'
+        => 'Ihr Browser unterst&uuml;tzt keine Inline Frames.<br />Bitte klicken Sie auf nachfolgenden Link, um den Seiteninhalt der externen Seite zu betrachten ...<br />',
+    'Markup type' => 'Elementtyp',
+    'Content type' => 'Inhaltstyp',
+    'Autoplay' => 'Automatisch abspielen',
+    'Source URL' => 'URL',
+    'Aspect ratio' => 'Seitenverhältnis',
+    'Please note: The aspect ratio will always be 16:9 on videos.' => 'Hinweis: Das Seitenverhältnis ist bei Videos immer 16:9.',
 );

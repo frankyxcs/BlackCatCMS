@@ -15,7 +15,7 @@
  *   along with this program; if not, see <http://www.gnu.org/licenses/>.
  *
  *   @author          Black Cat Development
- *   @copyright       2013, Black Cat Development
+ *   @copyright       2015, Black Cat Development
  *   @link            http://blackcat-cms.org
  *   @license         http://www.gnu.org/licenses/gpl.html
  *   @category        CAT_Core
@@ -34,9 +34,9 @@ $installer_uri = str_ireplace('update','',$installer_uri);
 $lang          = CAT_Helper_I18n::getInstance();
 $lang->addFile( $lang->getLang().'.php', dirname(__FILE__).'/../languages' );
 
-if(!CAT_Helper_Addons::versionCompare( CAT_VERSION, '0.11.0Beta' ))
+if(!CAT_Helper_Addons::versionCompare(CAT_VERSION,'1.2','>='))
     pre_update_error($lang->translate(
-        'You need to have <strong>BlackCat CMS v0.11.0Beta</strong> installed to use the Update.<br />You have <strong>{{version}}</strong> installed.',
+        'You need to have <strong>BlackCat CMS v1.2</strong> installed to use the Update.<br />You have <strong>{{version}}</strong> installed.',
         array( 'version' => CAT_VERSION )
     ));
 
@@ -77,207 +77,7 @@ if(!CAT_Helper_Validate::getInstance()->sanitizeGet('do'))
  ******************************************************************************/
 ob_start();
 
-/*******************************************************************************
-    BETA TO RELEASE 1.0
-*******************************************************************************/
 
-// remove captcha_control module
-if(file_exists(CAT_PATH.'/modules/captcha_control/index.php'))
-{
-    CAT_Helper_Directory::removeDirectory(CAT_PATH.'/modules/captcha_control');
-    $lang->db()->query(sprintf(
-        "DELETE FROM `%saddons` WHERE directory = '%s' AND type = '%s'",
-        CAT_TABLE_PREFIX, 'captcha_control', 'module'
-    ));
-}
-// moved to widgets subdir; in fact, this change was made before Beta, but anyway...
-if(file_exists(CAT_PATH.'/modules/blackcat/widget.php'))
-    unlink(CAT_PATH.'/modules/blackcat/widget.php');
-// add to class_secure table
-$lang->db()->query(sprintf(
-    "REPLACE INTO `%sclass_secure` VALUES ( 0, '%s' )",
-    CAT_TABLE_PREFIX, '/backend/pages/ajax_recreate_af.php'
-));
-
-/*******************************************************************************
-    1.0 TO 1.0.1
-*******************************************************************************/
-// remove beta png
-if(file_exists(CAT_PATH."/templates/freshcat/css/images/login/beta_state.png"))
-    unlink(CAT_PATH."/templates/freshcat/css/images/login/beta_state.png");
-
-// ----- moved for Version 1.1 (mysql strict mode) -----
-// run lib_search upgrade
-//if(file_exists(CAT_PATH.'/modules/lib_search/upgrade.php'))
-//    include CAT_PATH.'/modules/lib_search/upgrade.php';
-// run droplets upgrade
-//if(file_exists(CAT_PATH.'/modules/droplets/upgrade.php'))
-//    include CAT_PATH.'/modules/droplets/upgrade.php';
-// ----- moved for Version 1.1 (mysql strict mode) -----
-
-// run wrapper install script
-if(file_exists(CAT_PATH.'/modules/wrapper/install.php'))
-    include CAT_PATH.'/modules/wrapper/install.php';
-
-// run menu_link install script
-if(file_exists(CAT_PATH.'/modules/menu_link/install.php'))
-    include CAT_PATH.'/modules/menu_link/install.php';
-
-// remove compiled templates
-$dirs = CAT_Helper_Directory::getInstance()->maxRecursionDepth(0)->scanDirectory( CAT_PATH.'/temp/compiled', false, false );
-if(count($dirs))
-    CAT_Helper_Directory::removeDirectory($dirs[0]);
-
-
-/*******************************************************************************
-    1.0.1 TO 1.0.2
-*******************************************************************************/
-include CAT_PATH.'/framework/class.database.php';
-$database = new database();
-
-// fix cattranslate entry in class_secure table
-$database->query(sprintf(
-    'UPDATE `%sclass_secure` SET `filepath`="%s" WHERE `filepath`="%s"',
-    CAT_TABLE_PREFIX, '/modules/lib_jquery/plugins/cattranslate/cattranslate.php', '/modules/lib_jquery/plugins/catranslate/cattranslate.php'
-));
-
-// reset default template (set to empty value in DB) - see issue #205
-$res = $database->query(sprintf(
-    'SELECT `value` FROM `%ssettings` WHERE `name`="%s"',
-    CAT_TABLE_PREFIX, 'default_template'
-));
-if($res && $res->numRows())
-{
-    $row = $res->fetchRow(MYSQL_ASSOC);
-    $database->query(sprintf(
-        'UPDATE `%spages` SET `template`="" WHERE `template`="%s"',
-        CAT_TABLE_PREFIX, $row['value']
-    ));
-}
-
-/*******************************************************************************
-    1.0.2 TO 1.0.3
-*******************************************************************************/
-// drop obsolete table pages_load
-$database->query(sprintf(
-    'DROP TABLE IF EXISTS `%spages_load`;', CAT_TABLE_PREFIX
-));
-
-$res = $database->query(sprintf(
-    'SELECT `value` FROM `%ssettings` WHERE `name`="%s"',
-    CAT_TABLE_PREFIX, 'cat_default_date_format'
-));
-if(!$res || !$res->numRows())
-{
-// date and time formats; the wb2compat.php will create the ones for WB
-$database->query(sprintf(
-    'UPDATE `%ssettings` SET `name`="cat_default_date_format" WHERE `name`="default_date_format"',
-    CAT_TABLE_PREFIX
-));
-$database->query(sprintf(
-    'UPDATE `%ssettings` SET `name`="cat_default_time_format" WHERE `name`="default_time_format"',
-    CAT_TABLE_PREFIX
-));
-    $database->query(sprintf(
-        'INSERT INTO `%ssettings` VALUES (NULL,"%s","%s")',
-        CAT_TABLE_PREFIX, 'default_date_format','d.m.Y'
-    ));
-    $database->query(sprintf(
-        'INSERT INTO `%ssettings` VALUES (NULL,"%s","%s")',
-        CAT_TABLE_PREFIX,'default_time_format','H:i:s'
-    ));
-}
-// delete search droplet setting as it is no longer used
-$database->query(sprintf(
-    'DELETE FROM `%ssearch` WHERE `name`="cfg_search_droplet"',
-    CAT_TABLE_PREFIX
-));
-
-/*******************************************************************************
-    1.0.3/1.0.4 TO 1.1
-*******************************************************************************/
-
-// add new files
-$database->query(sprintf(
-    'REPLACE INTO `%sclass_secure` VALUES( "0", "/backend/pages/ajax_headers.php" )',
-    CAT_TABLE_PREFIX
-));
-$database->query(sprintf(
-    'REPLACE INTO `%sclass_secure` VALUES( "0", "/backend/pages/modify_headers.php" )',
-    CAT_TABLE_PREFIX
-));
-$database->query(sprintf(
-    'REPLACE INTO `%sclass_secure` VALUES ( "0", "/backend/login/ajax_check_ssl.php" )',
-    CAT_TABLE_PREFIX
-));
-
-$res = $database->query(sprintf(
-    'SELECT `filepath` FROM `%sclass_secure` WHERE `filepath`="%s"',
-    CAT_TABLE_PREFIX, '/modules/blackcat/widgets/logs.php'
-));
-if(!$res || !$res->numRows())
-{
-    $mod_id_h = $database->query(sprintf(
-        'SELECT `addon_id` FROM `%saddons` WHERE `directory`="%s"',
-        CAT_TABLE_PREFIX, 'blackcat'
-    ));
-    $mod_id = $mod_id_h->fetchColumn();
-    $database->query(sprintf(
-        'INSERT INTO `%sclass_secure` VALUES ( "%d", "/modules/blackcat/widgets/logs.php" )',
-        CAT_TABLE_PREFIX, $mod_id
-    ));
-}
-
-// alter table 'search'; no need to check this first
-$database->query(sprintf(
-    'ALTER TABLE `%ssearch` CHANGE COLUMN `extra` `extra` TEXT NULL',
-    CAT_TABLE_PREFIX
-));
-
-// alter table 'droplets'; no need to check this first
-$database->query(sprintf(
-    'ALTER TABLE `%smod_droplets` CHANGE COLUMN `modified_by` `modified_by` INT(11) NULL DEFAULT "0"',
-    CAT_TABLE_PREFIX
-));
-
-// run droplets upgrade
-if(file_exists(CAT_PATH.'/modules/droplets/upgrade.php'))
-    include CAT_PATH.'/modules/droplets/upgrade.php';
-// run lib_search upgrade
-if(file_exists(CAT_PATH.'/modules/lib_search/upgrade.php'))
-    include CAT_PATH.'/modules/lib_search/upgrade.php';
-
-// Installer for Doctrine
-$mod_id = $database->query(sprintf(
-    'SELECT `addon_id` FROM `%saddons` WHERE `directory`="%s"',
-    CAT_TABLE_PREFIX, 'lib_doctrine'
-));
-if(!$res || !$res->numRows())
-{
-    include CAT_PATH.'/modules/lib_doctrine/install.php';
-}
-
-// update droplet EditThisPage
-//CAT_Helper_Droplet::installDroplet(CAT_Helper_Directory::sanitizePath(CAT_PATH.'/modules/droplets/install/droplet_EditThisPage.zip'));
-
-// new table for header files
-$res = $database->query(sprintf(
-    'show tables like "%spages_headers"',
-    CAT_TABLE_PREFIX
-));
-if(!$res || !$res->numRows())
-{
-    $database->query(sprintf(
-        'CREATE TABLE IF NOT EXISTS `%spages_headers` (
-          `page_id` int(11) NOT NULL,
-          `page_js_files` text,
-          `page_css_files` text,
-          `page_js` text,
-          UNIQUE KEY `page_id` (`page_id`)
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT="header files";',
-        CAT_TABLE_PREFIX
-    ));
-}
 
 /*******************************************************************************
     ALL VERSIONS: update version info

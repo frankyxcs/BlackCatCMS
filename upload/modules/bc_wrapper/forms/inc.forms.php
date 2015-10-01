@@ -15,11 +15,11 @@
  *   along with this program; if not, see <http://www.gnu.org/licenses/>.
  *
  *   @author          Black Cat Development
- *   @copyright       2014, Black Cat Development
+ *   @copyright       2015, Black Cat Development
  *   @link            http://blackcat-cms.org
  *   @license         http://www.gnu.org/licenses/gpl.html
  *   @category        CAT_Modules
- *   @package         wrapper
+ *   @package         bc_wrapper
  *
  */
 
@@ -39,30 +39,14 @@ if (defined('CAT_PATH')) {
 	}
 }
 
-$module_directory   = 'wrapper';
-$module_name        = 'Wrapper';
-$module_function    = 'page';
-$module_version     = '3.0';
-$module_platform    = '2.x';
-$module_author      = 'Ryan Djurovich, Dietrich Roland Pehlke, Black Cat Development (last)';
-$module_license     = 'GNU General Public License';
-$module_description = 'This module allows you to wrap your site around another using an inline frame';
-$module_guid        = 'a5830654-06f3-402a-9d25-a03c53fc5574';
-
-/**
- *  3.0     2014-10-07  - added changes for BlackCat CMS v1.1, so this will no
- *                        longer work with WB, LEPTON or BC 1.0.x
- *
- *  2.7.5   2013-10-23  - allow to use CSS (%) for width and height
- *
- *  2.7.4   2013-10-23  - fix for BlackCat CMS
- *
- *	2.7.3	2012-02-09	- added upgrade.php.
- * 
- *	2.7.1	2010-11-02	- Bugfix inside the html-template to get valid output.
- *						  (Remove missplaced '</form>' closing tag)
- *						- Move the html-template inside the "htt" folder.
- *						- Remove WB 2.7 support.
- *
- */
-?>
+$FORMS = array(
+    'settings' => array(
+        'action' => CAT_URL.'/modules/wrapper/modify.php',
+        array('type'=>'hidden','name'=>'section_id','value'=>0),
+        array('type'=>'text','name'=>'url','label'=>'Source URL','value'=>'http://','required'=>true),
+        array('type'=>'select','name'=>'wrapper_type','label'=>'Markup type','class'=>'fbleave','options'=>array('iframe','object'),'selected'=>'iframe'),
+        array('type'=>'select','name'=>'content_type','label'=>'Content type','class'=>'fbleave','options'=>array('generic'=>'Generic','video'=>'Video'),'selected'=>'generic','title'=>'If you choose [video] you can enable [Autoplay], but this may not work with the URL you added. It will work for YouTube and Vimeo, for example.'),
+        array('type'=>'select','name'=>'ratio','label'=>'Aspect ratio','options'=>array('4:3','16:9'),'class'=>'fbleave'),
+        array('type'=>'checkbox','name'=>'autoplay','label'=>'Autoplay','title'=>'This will add [autoplay=1] to the given URL; this may not work on every video URL, so you will have to check it.'),
+    ),
+);

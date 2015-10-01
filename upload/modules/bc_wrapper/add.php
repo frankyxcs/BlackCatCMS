@@ -14,14 +14,12 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program; if not, see <http://www.gnu.org/licenses/>.
  *
- *   @author          Website Baker Project, LEPTON Project, Black Cat Development
- *   @copyright       2004-2010, Website Baker Project
- *   @copyright       2011-2012, LEPTON Project
- *   @copyright       2013, Black Cat Development
+ *   @author          Black Cat Development
+ *   @copyright       2015, Black Cat Development
  *   @link            http://blackcat-cms.org
  *   @license         http://www.gnu.org/licenses/gpl.html
- *   @category        CAT_Module
- *   @package         wrapper
+ *   @category        CAT_Modules
+ *   @package         bc_wrapper
  *
  */
 
@@ -41,27 +39,19 @@ if (defined('CAT_PATH')) {
 	}
 }
 
-global $database, $parser, $section_id;
-
-// get url
-$get_settings   = $database->query(
-    "SELECT `url`,`height`,`width`,`wtype` FROM `:prefix:mod_wrapper` WHERE `section_id` = :section",
-    array('section'=>$section_id)
+$settings = array(
+    'autoplay'     => 'n',
+    'content_type' => 'generic',
+    'ratio'        => '16:9',
+    'url'          => '',
+    'wrapper_type' => 'iframe'
 );
-$fetch_settings = $get_settings->fetch();
-$url            = $fetch_settings['url'];
 
-if ( !isset($fetch_settings['wtype']) || ($fetch_settings['wtype']) == '' ) {
-    $fetch_settings['wtype'] = 'iframe';
+foreach($settings as $key => $value)
+{
+    $database->query(
+         "INSERT INTO `:prefix:mod_bc_wrapper` (`section_id`, `set_name`, `set_value`) "
+        ."VALUES (:section, :key, :value)",
+        array('section'=>$section_id,'key'=>$key,'value'=>$value)
+    );
 }
-
-if ( !file_exists(CAT_PATH.'/modules/wrapper/htt/'.$fetch_settings['wtype'].'.tpl') ) {
-	$fetch_settings['wtype'] = 'iframe';
-}
-
-$data = array(
-    'MOD_WRAPPER' => $MOD_WRAPPER,
-    'SETTINGS'    => $fetch_settings
-);
-$parser->setPath( CAT_PATH.'/modules/wrapper/htt' );
-$parser->output( $fetch_settings['wtype'].'.tpl', $data );

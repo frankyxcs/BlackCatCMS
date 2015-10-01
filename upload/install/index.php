@@ -131,7 +131,7 @@ $bundled = array(
     'lib_dwoo'       , 'lib_images', 'lib_jquery', 'lib_pclzip', 'lib_search'  ,
     'lib_zendlite'   , 'lib_csrfmagic',
     'lib_doctrine'   ,
-    'menu_link'      , 'show_menu2', 'wrapper'   , 'wysiwyg'   , 'wysiwyg_admin',
+    'menu_link'      , 'show_menu2', 'bc_wrapper', 'wysiwyg'   , 'wysiwyg_admin',
 // ----- templates -----
     'blank'          , 'freshcat'  ,
 // ----- languages -----

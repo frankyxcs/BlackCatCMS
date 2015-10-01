@@ -15,11 +15,11 @@
  *   along with this program; if not, see <http://www.gnu.org/licenses/>.
  *
  *   @author          Black Cat Development
- *   @copyright       2014, Black Cat Development
+ *   @copyright       2015, Black Cat Development
  *   @link            http://blackcat-cms.org
  *   @license         http://www.gnu.org/licenses/gpl.html
  *   @category        CAT_Modules
- *   @package         wrapper
+ *   @package         bc_wrapper
  *
  */
 
@@ -39,7 +39,23 @@ if (defined('CAT_PATH')) {
 	}
 }
 
-global $database;
+// Create table
+$mod_bc_wrapper = 'CREATE TABLE IF NOT EXISTS `:prefix:mod_bc_wrapper` ('
+    . '`section_id` INT(11) NOT NULL DEFAULT \'0\', '
+    . '`set_name` VARCHAR(50) NOT NULL DEFAULT \'0\', '
+    . '`set_value` VARCHAR(50) NOT NULL DEFAULT \'0\', '
+    . 'UNIQUE INDEX `section_id_set_name` (`section_id`, `set_name`) '
+	. ' )';
+$database->query($mod_bc_wrapper);
 
-// Delete page from mod_wrapper
-$database->query("DELETE FROM `:prefix:mod_wrapper` WHERE `section_id` = :section", array('section'=>$section_id));
+// add files to class_secure
+$addons_helper = new CAT_Helper_Addons();
+foreach(
+    array( 'save.php' )
+    as $file
+) {
+    if ( false === $addons_helper->sec_register_file( 'bc_wrapper', $file ) )
+    {
+         error_log( "Unable to register file -$file-!" );
+    }
+}
